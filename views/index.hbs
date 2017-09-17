@@ -72,15 +72,15 @@
             console.log(this, ev, ev.detail.intersection.point);
 
             function setPosition(elId, point) {
-              var test = document.getElementById(elId);
-              var position = test.getAttribute('position');
+              var el = document.getElementById(elId);
+              var position = el.getAttribute('position');
               var target = { x: point.x, y: position.y, z: point.z };
-              test.setAttribute('position', target) 
+              el.setAttribute('position', target) 
             }
 
             var point = ev.detail.intersection.point;
 
-            setPosition('test', point);
+            setPosition('position-mark', point);
             setPosition('player', point);
           });
         }
@@ -98,22 +98,42 @@
         </a-entity>
       </a-camera>
 
-      <a-cylinder id="test" color="crimson" height="2" radius="0.005" position="0 1 0"></a-cylinder>
+      <a-cylinder id="position-mark" color="crimson" height="2" radius="0.005" position="0 1 0"></a-cylinder>
 
       <a-entity id="sky" geometry="primitive:sphere;radius:5000" material="shader:gradient;topColor:0 0 0;bottomColor:185 185 210" scale="-1 1 1"></a-entity>
 
       <!-- Frente -->
       <a-box color="yellow" depth="1" height="2" width="1" wireframe="false" position="0 1 -10"></a-box>
 
-      <!-- Chão Cozinha -->
-      <a-plane color="#CCC" height="6.22" width="2.66" rotation="-90 0 0" path></a-plane>
+      <!-- Area -->
+      <!-- <a-plane color="#FCF" width="6.43" height="6.22" rotation="-90 0 0" position="0 -0.01 0" path></a-plane> -->
 
-      <!-- Portico Pilar -->
-      <a-entity position="-1.43 0 -1.26">
-        <!-- <a-box color="#BBB" width="0.2" height="2" depth="3.7" wireframe="true" position="0 1 0"></a-box> -->
-        <a-box color="#BBB" width="0.2" height="2" depth="0.6" wireframe="false" position="0 1 1.55"></a-box>
-        <a-box color="#BBB" width="0.2" height="2" depth="1.1" wireframe="false" position="0 1 -1.3"></a-box>
-        <a-box color="#BBB" width="0.2" height="0.1" depth="3.7" wireframe="false" position="0 1.95 0"></a-box>
+      <!-- Chão Cozinha -->
+      <a-entity id="kitchen-floor" position="1.33 0 -1.85">
+        <a-plane color="#CCF" width="2.66" height="3.70" rotation="-90 0 0" path></a-plane>
+      </a-entity>
+
+      <!-- Chão Escada -->
+      <a-entity position="1.33 0 1.26">
+        <a-plane color="#CC0" width="2.66" height="2.52" rotation="-90 0 0" path></a-plane>
+      </a-entity>
+
+      <!-- Chão Sala + Portico -->
+      <a-entity position="-1.885 0 -1.85">
+        <a-plane color="#CC6" width="3.77" height="3.70" rotation="-90 0 0" path></a-plane>
+
+        <!-- Portico Pilar -->
+        <a-entity id="portico" position="1.785 0 0">
+          <!-- <a-box color="#BBB" width="0.2" height="2" depth="3.7" wireframe="true" position="0 1 0"></a-box> -->
+          <a-box color="#BBB" width="0.2" height="2" depth="0.6" wireframe="false" position="0 1 1.55"></a-box>
+          <a-box color="#BBB" width="0.2" height="2" depth="1.1" wireframe="false" position="0 1 -1.3"></a-box>
+          <a-box color="#BBB" width="0.2" height="0.1" depth="3.7" wireframe="false" position="0 1.95 0"></a-box>
+        </a-entity>
+      </a-entity>
+
+      <!-- Chão Jantar + Portico -->
+      <a-entity position="-1.885 0 1.26">
+        <a-plane color="#CCB" width="3.77" height="2.52" rotation="-90 0 0" path></a-plane>
       </a-entity>
 
       <!-- Balcao com porta -->
