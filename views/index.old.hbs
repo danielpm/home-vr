@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras.ocean@%5E3.5.x/dist/aframe-extras.ocean.min.js"></script>
+    <script src="https://unpkg.com/aframe-gradient-sky@1.0.4/dist/gradientsky.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-entity id="sky" geometry="primitive:sphere;radius:5000" material="shader:gradient;topColor:0 0 0;bottomColor:185 185 210" scale="-1 1 1"></a-entity>
+
+      <!-- Frente -->
+      <a-box color="yellow" depth="1" height="2" width="1" wireframe="false" position="0 1 -10"></a-box>
+
+      <!-- Chão Cozinha -->
+      <a-plane color="#CCC" height="6.22" width="2.66" rotation="-90 0 0"></a-plane>
+
+      <!-- Cozinha pos fix -->
+      <a-entity position="-1.33 0 3.11">
+      
+        <!-- Ilha -->
+        <a-box color="tomato" depth="1.8" height="0.8" width="1.2" wireframe="false" position="0.4 0.4 -3.42"></a-box> 
+
+        <!-- Balcao Janela -->
+        <a-box color="tomato" depth="0.6" height="0.8" width="2.66" wireframe="false" position="1.33 0.4 -5.92"></a-box>
+
+        <!-- Balcao Lateral -->
+        <!-- <a-box color="tomato" depth="3.7" height="0.8" width="0.6" wireframe="false" position="2.36 0.4 -4.4"></a-box> -->
+        <a-box color="tomato" depth="2.975" height="0.8" width="0.6" wireframe="false" position="2.36 0.4 -4.725"></a-box>
+
+        <!-- Geladeira -->
+        <a-box color="blue" depth="0.725" height="1.83" width="0.76" wireframe="false" position="2.205 0.915 -2.8825"></a-box>
+      </a-entity>
+      <!-- Ilha -->
+      <!-- <a-box color="tomato" depth="1.8" height="0.8" width="1.2" wireframe="false" position="-0.73 0.4 0.59"></a-box> -->
+    
+      <!-- Balcao Janela -->
+      <!-- <a-box color="tomato" depth="0.6" height="0.8" width="2.66" wireframe="false" position="0 0.4 -2.81"></a-box> -->
+
+      <!-- Portico Pilar -->
+      <a-entity position="-1.43 0 -1.26">
+        <a-box color="#BBB" depth="3.7" height="2" width="0.2" wireframe="true" position="0 1 0"></a-box>
+        <a-box color="#BBB" depth="0.6" height="2" width="0.2" wireframe="false" position="0 1 1.55"></a-box>
+        <a-box color="#BBB" depth="1.1" height="2" width="0.2" wireframe="false" position="0 1 -1.3"></a-box>
+        <a-box color="#BBB" depth="3.7" height="0.1" width="0.2" wireframe="false" position="0 1.95 0"></a-box>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>

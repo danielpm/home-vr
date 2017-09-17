@@ -1,0 +1,139 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras.ocean@%5E3.5.x/dist/aframe-extras.ocean.min.js"></script>
+    <script src="https://unpkg.com/aframe-gradient-sky@1.0.4/dist/gradientsky.min.js"></script>
+    <script>
+      AFRAME.registerComponent('has-action', {
+        schema: {
+          color: { default: 'yellow' }
+        },
+        init: function () {
+          var data = this.data;
+          var el = this.el;
+          var defaultColor = el.getAttribute('material').color;
+
+          el.addEventListener('mouseenter', function () {
+            el.setAttribute('color', data.color);
+          });
+
+          el.addEventListener('mouseleave', function () {
+            el.setAttribute('color', defaultColor);
+          });
+        }
+      });
+
+      AFRAME.registerComponent('open-door', {
+        schema: {
+          previous: { default: null },
+          isOpen: { default: false }
+        },
+
+        init: function () {
+          var data = this.data;
+          var el = this.el;
+
+          data.previous = el.getAttribute('position');
+
+          el.addEventListener('click', function () {
+            if (data.isOpen == true && data.previous) {
+              el.setAttribute('position', data.previous);
+              el.setAttribute('rotation', {x: 0, y: 0, z: 0});
+              data.isOpen = false;
+            }
+            else {
+              var pos = el.getAttribute('position');
+              var width = parseFloat(el.getAttribute('width'));
+
+              data.previous = pos;
+
+              el.setAttribute('position', {x: pos.x + (width/2), y: pos.y, z: pos.z - (width/2) });
+              el.setAttribute('rotation', {x: 0, y: 90, z: 0});
+              data.isOpen = true;
+            }
+          });
+        }
+      });
+
+      AFRAME.registerComponent('path', {
+        schema: {
+          // previous: { default: null },
+          // isOpen: { default: false }
+        },
+
+        init: function () {
+          var data = this.data;
+          var el = this.el;
+          var scene = this.el.sceneEl;
+
+          el.addEventListener('click', function (ev) {
+            console.log(this, ev, ev.detail.intersection.point);
+
+            function setPosition(elId, point) {
+              var test = document.getElementById(elId);
+              var position = test.getAttribute('position');
+              var target = { x: point.x, y: position.y, z: point.z };
+              test.setAttribute('position', target) 
+            }
+
+            var point = ev.detail.intersection.point;
+
+            setPosition('test', point);
+            setPosition('player', point);
+          });
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a-scene>
+      
+      <a-camera id="player">
+        <!-- <a-cursor></a-cursor> -->
+        <a-entity cursor="fuse: false;" position="0 0 -1" scale="0.01 0.01 0.01" geometry="primitive: ring" material="color: black; shader: flat">
+          <a-animation begin="click" easing="ease" fill="none" dur="20" direction="alternate" attribute="scale" from="0.01 0.01 0.01" to="0.008 0.008 0.008"></a-animation>
+          <a-animation begin="click" easing="ease" fill="none" delay="20" dur="20" direction="alternate" attribute="scale" from="0.008 0.008 0.008" to="0.01 0.01 0.01"></a-animation>
+        </a-entity>
+      </a-camera>
+
+      <a-cylinder id="test" color="crimson" height="2" radius="0.005" position="0 1 0"></a-cylinder>
+
+      <a-entity id="sky" geometry="primitive:sphere;radius:5000" material="shader:gradient;topColor:0 0 0;bottomColor:185 185 210" scale="-1 1 1"></a-entity>
+
+      <!-- Frente -->
+      <a-box color="yellow" depth="1" height="2" width="1" wireframe="false" position="0 1 -10"></a-box>
+
+      <!-- Chão Cozinha -->
+      <a-plane color="#CCC" height="6.22" width="2.66" rotation="-90 0 0" path></a-plane>
+
+      <!-- Portico Pilar -->
+      <a-entity position="-1.43 0 -1.26">
+        <!-- <a-box color="#BBB" width="0.2" height="2" depth="3.7" wireframe="true" position="0 1 0"></a-box> -->
+        <a-box color="#BBB" width="0.2" height="2" depth="0.6" wireframe="false" position="0 1 1.55"></a-box>
+        <a-box color="#BBB" width="0.2" height="2" depth="1.1" wireframe="false" position="0 1 -1.3"></a-box>
+        <a-box color="#BBB" width="0.2" height="0.1" depth="3.7" wireframe="false" position="0 1.95 0"></a-box>
+      </a-entity>
+
+      <!-- Balcao com porta -->
+      <a-entity position="2 0 -2" rotation="0 180 0">
+        <a-box color="#BBB" width="0.5" height="0.8" depth="0.58" wireframe="false" position="0 0.4 0.01"></a-box>
+        <a-box color="#F00" width="0.46" height="0.76" depth="0.02" wireframe="false" position="0.00 0.40 -0.29" has-action open-door></a-box>
+      </a-entity>
+
+      <!-- Balcao -->
+      <a-entity position="3 0 0">
+        <a-box color="#BBB" width="0.5" height="0.8" depth="0.60" wireframe="false" position="0 0.4 0"></a-box>
+      </a-entity>
+
+      <!-- Geladeira -->
+      <a-entity position="0 0 -2" rotation="0 180 0">
+        <a-box color="#BBB" width="0.7" height="1.8" depth="0.76" wireframe="false" position="0 0.9 0"></a-box>
+        <a-box color="#00F" width="0.7" height="0.4" depth="0.02" wireframe="false" position="0.00 1.58 -0.39" has-action open-door></a-box>
+        <a-box color="#00F" width="0.7" height="1.3" depth="0.02" wireframe="false" position="0.00 0.7 -0.39" has-action open-door></a-box>
+      </a-entity>
+      
+    </a-scene>
+  </body>
+</html>
